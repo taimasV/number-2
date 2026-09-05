@@ -3,10 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="0; url=./first.html">
-  <title>Checkmate</title>
+  <title>Checkmate | Chess</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./first.css">
 </head>
 <body>
-  <p>Opening <a href="./first.html">Checkmate</a>...</p>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Checkmate home">
+        <span class="brand-mark">♞</span>
+        <span>checkmate<span class="brand-dot">.</span></span>
+      </a>
+      <div class="topbar-note"><span class="live-dot"></span> local two-player game</div>
+    </header>
+
+    <section class="game-layout" aria-label="Chess game">
+      <div class="board-column">
+        <div class="game-heading">
+          <div>
+            <p class="eyebrow">The board is yours</p>
+            <h1>Find your next move.</h1>
+          </div>
+          <div class="turn-badge" id="turnBadge"><span class="turn-piece">●</span> White to move</div>
+        </div>
+
+        <div class="board-frame">
+          <div class="board" id="board" role="grid" aria-label="Chess board"></div>
+        </div>
+        <div class="board-footer">
+          <span id="gameStatus">White is thinking</span>
+          <span class="keyboard-hint"><kbd>R</kbd> reset game</span>
+        </div>
+      </div>
+
+      <aside class="side-panel">
+        <section class="panel-section players-section">
+          <div class="player-card active" id="whitePlayer">
+            <span class="player-avatar white-avatar">♔</span>
+            <div><span class="player-label">PLAYER 1</span><strong>White</strong></div>
+            <span class="player-state" aria-label="White's turn"></span>
+          </div>
+          <div class="player-card" id="blackPlayer">
+            <span class="player-avatar black-avatar">♚</span>
+            <div><span class="player-label">PLAYER 2</span><strong>Black</strong></div>
+            <span class="player-state" aria-label="Black's turn"></span>
+          </div>
+        </section>
+
+        <section class="panel-section moves-section">
+          <div class="section-title"><h2>Moves</h2><span class="move-count" id="moveCount">0</span></div>
+          <div class="move-list" id="moveList"><p class="empty-moves">Make the first move.</p></div>
+        </section>
+
+        <section class="panel-section captured-section">
+          <div class="section-title"><h2>Captured</h2></div>
+          <div class="captured-row"><span class="captured-label">White</span><span id="whiteCaptured" class="captured-pieces"></span></div>
+          <div class="captured-row"><span class="captured-label">Black</span><span id="blackCaptured" class="captured-pieces"></span></div>
+        </section>
+
+        <div class="panel-actions">
+          <button class="button button-secondary" id="undoButton" type="button" disabled><span>↶</span> Undo</button>
+          <button class="button button-primary" id="resetButton" type="button"><span>↻</span> New game</button>
+        </div>
+      </aside>
+    </section>
+    <footer class="page-footer">No accounts. No clocks. Just the board.</footer>
+  </main>
+  <script src="./first.js"></script>
 </body>
 </html>
