@@ -12,6 +12,7 @@
     "vite": "^6.1.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.115.0",
     "chess.js": "^1.4.0"
   }
 }

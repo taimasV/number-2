@@ -1,4 +1,5 @@
 import { Chess } from "chess.js";
+import { createClient } from "@supabase/supabase-js";
 
 const symbols = {
   w: { k: "♔", q: "♕", r: "♖", b: "♗", n: "♘", p: "♙" },
@@ -16,6 +17,14 @@ const moveListElement = document.querySelector("#moveList");
 const turnBadge = document.querySelector("#turnBadge");
 const gameStatus = document.querySelector("#gameStatus");
 const undoButton = document.querySelector("#undoButton");
+const saveButton = document.querySelector("#saveButton");
+const cloudStatus = document.querySelector("#cloudStatus");
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
+const gameId = crypto.randomUUID();
+
+if (supabase) cloudStatus.textContent = "Supabase connected";
 
 function render() {
   boardElement.innerHTML = "";
@@ -128,8 +137,26 @@ function resetGame() {
   render();
 }
 
+async function saveOnline() {
+  if (!supabase) {
+    cloudStatus.textContent = "Add Supabase keys to .env";
+    return;
+  }
+  saveButton.disabled = true;
+  cloudStatus.textContent = "Saving...";
+  const { error } = await supabase.from("games").upsert({
+    id: gameId,
+    fen: game.fen(),
+    moves: game.history(),
+    status: gameOver ? gameStatus.textContent : "in_progress"
+  });
+  saveButton.disabled = false;
+  cloudStatus.textContent = error ? "Could not save game" : `Saved ${gameId.slice(0, 8)}`;
+}
+
 undoButton.addEventListener("click", undoMove);
 document.querySelector("#resetButton").addEventListener("click", resetGame);
+saveButton.addEventListener("click", saveOnline);
 document.addEventListener("keydown", (event) => {
   if (event.key.toLowerCase() === "r") resetGame();
 });
